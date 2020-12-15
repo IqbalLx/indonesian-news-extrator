@@ -15,8 +15,8 @@ def extract(text):
         "text": text
     }
 
-    repsonse = requests.request("POST", "https://api.prosa.ai/v1/entities",\
-                                    headers=headers, data=json.dumps(data))
+    repsonse = requests.post("https://api.prosa.ai/v1/entities",\
+                                headers=headers, data=json.dumps(data))
     entities = repsonse.json().get("entities")
 
     return postpro(entities)
@@ -24,16 +24,24 @@ def extract(text):
 
 def postpro(entities):
     selected_type = ["ORG", "PER"]
+    date_type = "DTE"
 
     used_name = set()
-    qualified_entity = []
-    for entity in entities:
-        if entity.get("type") in selected_type:
-            name = entity.get("name")
-            if name not in used_name:
-                qualified_entity.append(entity)
-                used_name.add(name)
-                
 
-    return qualified_entity
+    qualified_entities = []
+    date_entities = []
+    for entity in entities:
+        entity_type = entity.get("type")
+        entity_name = entity.get("name")
+        if entity_type in selected_type:
+            if entity_name not in used_name:
+                qualified_entities.append(entity)
+                
+        elif entity_type == date_type:
+            if entity_name not in used_name:
+                date_entities.append(entity_name)
+        
+        used_name.add(entity_name)
+
+    return qualified_entities, date_entities
 

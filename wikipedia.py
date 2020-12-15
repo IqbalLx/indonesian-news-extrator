@@ -4,6 +4,8 @@ import time
 SEARCH_URL = "https://id.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch={0}&limit=1"
 SNIPPET_URL = "https://id.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&pageids={0}"
 ORIGINAL_URL = "https://id.wikipedia.org/?curid={0}"
+DATE_URL = "https://id.wikipedia.org/wiki/{0}"
+
 
 def get_match(keyword):
     init = time.time()
@@ -24,6 +26,7 @@ def get_match(keyword):
     
     return metadata
 
+
 def get_snippet(match_id):
     response = requests.get(SNIPPET_URL.format(match_id)).json()
     response = response.get("query").get("pages").get(str(match_id))
@@ -35,5 +38,9 @@ def get_snippet(match_id):
     }
 
     return return_data
+
+
+def get_date(date):
+    return DATE_URL.format(date.replace(' ', '_'))
 
     
