@@ -30,7 +30,8 @@ def clean_unicode(text):
     Returns:
         [str]: A unicode-free string
     """
-    clean_text = text.encode("ascii", errors="ignore").strip().decode("ascii")
+    clean_text = text.encode("ascii", errors="replace").strip().decode("ascii")
+    clean_text = clean_text.replace("?", ' ')
     return clean_text
 
 
@@ -100,7 +101,14 @@ def clean_date(extracted_date):
     else:
         splitted_date = extracted_date.split("/")
         return f"{splitted_date[0]} {MONTH.get(splitted_date[1])}"
-    
+
+
+def clean_dataset(text):
+    unalloweds = ['"', "'"]
+    for unallowed in unalloweds:
+        text = text.replace(unallowed, '')
+    return text
+
 
 if __name__ == "__main__":
     # demo purpose

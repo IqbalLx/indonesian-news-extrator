@@ -1,18 +1,20 @@
-from news_parser import CNNParser, CNBCParser
-import ner
-import wikipedia as wiki
-from cleaner import extract_date
+from utils.news_parser import CNNParser, CNBCParser
+import utils.ner as ner
+import utils.wikipedia as wiki
+from utils.cleaner import extract_date
 
 
 cnn_url = "https://www.cnnindonesia.com/nasional/20201214083527-32-581674/fadli-zon-siap-jamin-penangguhan-penahanan-rizieq-shihab"
 cnbc_url = "https://www.cnbcindonesia.com/news/20201215174238-4-209332/idi-217-dokter-146-perawat-meninggal-akibat-covid-19"
 
-# original_news = CNNParser(url=cnn_url).parse()
-original_news = CNBCParser(url=cnbc_url).parse()
+original_news = CNNParser().parse(url=cnn_url).clean()
+# original_news = CNBCParser(url=cnbc_url).parse()
 
-print(original_news)
+print(repr(original_news))
 
-entities, date_entities = ner.extract(original_news)
+entities = ner.extract(original_news)
+entities, date_entities = ner.postpro(entities)
+date_entities = [entity.get("name") for entity in date_entities]
 
 print("\nMentioned Date in Article:\n")
 print(f"Raw date(s) found: {date_entities}")
