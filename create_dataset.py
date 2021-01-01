@@ -58,31 +58,3 @@ def main(flags):
 if __name__ == "__main__":
     flags = get_flags()
     main(flags)
-
-
-
-
-
-
-        
-        
-
-
-
-# cnn_url = "https://www.cnnindonesia.com/nasional/20201214083527-32-581674/fadli-zon-siap-jamin-penangguhan-penahanan-rizieq-shihab"
-# cnbc_url = "https://www.cnbcindonesia.com/news/20201215174238-4-209332/idi-217-dokter-146-perawat-meninggal-akibat-covid-19"
-
-# original_news = CNBCParser(url=cnbc_url).parse()
-# print(original_news)
-
-# text = clean_dataset(original_news)
-# entities = ner.extract(original_news)
-# entities, _ = ner.postpro(entities)
-
-# print(entities)
-
-# train_data = ner.to_spacy_dataset(text, entities)
-
-# train_datas = [train_data]
-# with open("ner_training/dataset/dataset.json", "w") as dataset:
-#     dataset.write(json.dumps(train_datas, indent=4))
